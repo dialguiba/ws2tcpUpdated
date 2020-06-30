@@ -1,10 +1,8 @@
 #!/usr/bin/env node
-
 var ws_module = require('ws');
 var net = require('net');
 
 var wsMask = false;
-//console.log(wsMask);
 
 function initSocketCallbacks(state,ws,s) {
 
@@ -78,25 +76,7 @@ function initSocketCallbacks(state,ws,s) {
 	});
 }
 
-function tcp2ws() {
-	console.log('proxy mode tcp -> ws');
-	console.log('forwarding port ' + puertoentrada + ' to ' + ipllegada+":"+puertollegada);
-
-	var server = net.createServer(function(s) {
-		var ws = new ws_module(puertoentrada);
-		
-		var state = {
-			sReady : true,
-			wsReady : false,
-			wsBuffer: [],
-			sBuffer : []
-		};
-		initSocketCallbacks(state,ws,s);
-	});
-	server.listen(puertollegada);
-}
-
-function ws2tcp(puertoentrada,ipllegada,puertollegada) {
+module.exports = function ws2tcp(puertoentrada,ipllegada,puertollegada) {
 
 	console.log('proxy mode ws -> tcp');
 	console.log('forwarding port ' + puertoentrada + ' to ' + ipllegada+":"+puertollegada);
@@ -115,19 +95,12 @@ function ws2tcp(puertoentrada,ipllegada,puertollegada) {
 		};
 		initSocketCallbacks(state,ws,s);
 	});
-
 }
 
-/* if(argv.method == 'tcp2ws') {
-	tcp2ws();
-} else if (argv.method == 'ws2tcp') {
-	ws2tcp('127.0.0.1',5900);
-} else {
-	console.error("Method must be either tcp2ws or ws2tcp!");
-} */
+/* 
 try{
-    ws2tcp(5555,'127.0.0.1',5900);
-ws2tcp(5556,'192.168.0.121',5900);
+    ws2tcp(8000,'127.0.0.1',5900);
+	ws2tcp(5556,'192.168.0.121',5900);
 }
 catch(e)
-{console.log(e)}
+{console.log(e)} */
